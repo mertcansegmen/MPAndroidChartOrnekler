@@ -4,8 +4,10 @@ import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
@@ -15,7 +17,11 @@ import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.ValueFormatter;
+import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -124,8 +130,8 @@ public class MainActivity extends AppCompatActivity {
         BarChart barChart = findViewById(R.id.bar_chart);
 
         // Y ekseninde gözükecek değerler
-        float[] urunGetirileri = {871.81f, 853.81f, 827.85f, 758.85f, 614.95f, 598.95f, 553.05f,
-                        534.05f, 427.45f, 426.45f, 401.25f, 378.25f, 290.15f, 240.15f};
+        float[] urunGetirileri = {1238.81f, 853.81f, 724.85f, 617.85f, 614.95f, 598.95f, 553.05f,
+                        441.05f, 427.45f, 426.45f, 401.25f, 378.25f, 290.15f, 240.15f};
         // X ekseninin indexleri
         float[] indexler = {0f, 1f, 2f, 3f, 4f, 5f, 6f, 7f, 8f, 9f, 10f, 11f, 12f, 13f};
         // X ekseninde gözükecek değerler
@@ -195,16 +201,50 @@ public class MainActivity extends AppCompatActivity {
 
         // X eksenindeki sadece 7 değerin gözükmesini sağlar
         barChart.setVisibleXRangeMaximum(7);
-
         // Çift tıklayınca yakınlaştırmayı kapatır
         barChart.setDoubleTapToZoomEnabled(false);
         // X eksenine animasyon uygulayarak grafiği 750 milisaniyede çizer
-        barChart.animateY(750);
+        barChart.animateY(1000);
         // PinchZoom aktif edilir. false ayarlanırsa X ve Y ekseni için ayrı ayrı yakınlaştırılır
         barChart.setPinchZoom(true);
         // Grafiğin sağ altındaki açıklamayı gizler
         barChart.getDescription().setEnabled(false);
         // Grafiği yeniler
         barChart.invalidate();
+
+        //*************************************************************************************//
+
+        PieChart pieChart = findViewById(R.id.pie_chart);
+
+        List<PieEntry> degerlerPie = new ArrayList<>();
+        degerlerPie.add(new PieEntry(23f, "Okan"));
+        degerlerPie.add(new PieEntry(14f, "Veli"));
+        degerlerPie.add(new PieEntry(35f, "Buse"));
+        degerlerPie.add(new PieEntry(28f, "Osman"));
+
+        PieDataSet dataSet = new PieDataSet(degerlerPie, "|  Çalışanların ürün satma yoğunluğu");
+        // Dilim renkleri
+        dataSet.setColors(ColorTemplate.JOYFUL_COLORS);
+        // Dilimlerin arasındaki boşluğu ayarlar
+        dataSet.setSliceSpace(6f);
+        // Dilim seçilince ne kadar dışarı çıkacağını ayarlar
+        dataSet.setSelectionShift(4f);
+
+        PieData data = new PieData(dataSet);
+        // Değerlerin yazı büyüklüğü
+        data.setValueTextSize(10f);
+        // Değerlerin yazı rengi
+        data.setValueTextColor(Color.BLACK);
+        pieChart.setData(data);
+
+        // Etiketlerin yazı rengi
+        pieChart.setEntryLabelColor(Color.BLACK);
+        // Grafiğin sağ altındaki açıklamayı gizler
+        pieChart.getDescription().setEnabled(false);
+        // Grafiğin iç tarafının boş olmasını engeller
+        pieChart.setDrawHoleEnabled(false);
+        pieChart.spin(1000, 0f, 360f, Easing.EaseInOutQuad);
+        // Grafiği yeniler
+        pieChart.invalidate();
     }
 }
