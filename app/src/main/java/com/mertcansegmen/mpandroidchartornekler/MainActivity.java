@@ -21,6 +21,7 @@ import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.ValueFormatter;
+import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
@@ -38,28 +39,28 @@ public class MainActivity extends AppCompatActivity {
 
         // Y ekseninde gözükecek değerler
         float[] kazanclar = {424.25f, 427.45f, 340.15f, 614.95f, 553.05f, 827.85f, 871.81f,
-                             324.25f, 527.45f, 540.15f, 314.95f, 653.05f, 854.85f, 771.81f};
+                324.25f, 527.45f, 540.15f, 314.95f, 653.05f, 854.85f, 771.81f};
 
         // X ekseninin indexleri
-        int[] indexlerBar = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13};
+        int[] indexlerLine = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13};
 
         // X ekseninde gözükecek değerler
         final String[] tarihler = new String[]{"6 May", "7 May", "8 May", "9 May", "10 May", "11 May", "12 May",
-                                              "13 May", "14 May", "15 May", "16 May", "17 May", "18 May", "19 May"};
+                "13 May", "14 May", "15 May", "16 May", "17 May", "18 May", "19 May"};
 
         ValueFormatter formatterLine = new ValueFormatter() {
             @Override
             public String getAxisLabel(float value, AxisBase axis) {
-            if(tarihler.length > (int) value)
-                return tarihler[(int) value];
-            else return "";
+                if(tarihler.length > (int) value)
+                    return tarihler[(int) value];
+                else return "";
             }
         };
 
         List<Entry> degerlerLine = new ArrayList<>();
 
         for(int i = 0; i<tarihler.length; i++){
-            degerlerLine.add(new BarEntry(indexlerBar[i], kazanclar[i]));
+            degerlerLine.add(new BarEntry(indexlerLine[i], kazanclar[i]));
         }
 
         LineDataSet lineDataSet = new LineDataSet(degerlerLine, "Günlük Kâr (₺)");
@@ -112,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
         // X eksenindeki sadece 7 değerin gözükmesini sağlar
         lineChart.setVisibleXRangeMaximum(7);
         // Tablonun en sondaki değerlerin gözükmesini sağlar
-        lineChart.moveViewToX(indexlerBar.length*1f);
+        lineChart.moveViewToX(indexlerLine.length*1f);
 
         // Grafiğe çift tıkla yakınlaştırmayı kapatır
         lineChart.setDoubleTapToZoomEnabled(false);
@@ -133,7 +134,7 @@ public class MainActivity extends AppCompatActivity {
         float[] urunGetirileri = {1238.81f, 853.81f, 724.85f, 617.85f, 614.95f, 598.95f, 553.05f,
                         441.05f, 427.45f, 426.45f, 401.25f, 378.25f, 290.15f, 240.15f};
         // X ekseninin indexleri
-        float[] indexler = {0f, 1f, 2f, 3f, 4f, 5f, 6f, 7f, 8f, 9f, 10f, 11f, 12f, 13f};
+        float[] indexlerBar = {0f, 1f, 2f, 3f, 4f, 5f, 6f, 7f, 8f, 9f, 10f, 11f, 12f, 13f};
         // X ekseninde gözükecek değerler
         final String[] urunler= new String[]{"Browni Intense", "Kekstra Portakallı", "Albeni 40g", "Kekstra Çilekli",
                                             "Olala Barkek", "Indomie Noodle Dana", "Ülker Dido", "Ülker Çokonat",
@@ -151,7 +152,7 @@ public class MainActivity extends AppCompatActivity {
         List<BarEntry> degerlerBar = new ArrayList<>();
 
         for(int i = 0; i<tarihler.length; i++){
-            degerlerBar.add(new BarEntry(indexler[i], urunGetirileri[i]));
+            degerlerBar.add(new BarEntry(indexlerBar[i], urunGetirileri[i]));
         }
 
         BarDataSet barDataSet = new BarDataSet(degerlerBar, "Ürün Getirisi (₺)");
@@ -246,5 +247,104 @@ public class MainActivity extends AppCompatActivity {
         pieChart.spin(1000, 0f, 360f, Easing.EaseInOutQuad);
         // Grafiği yeniler
         pieChart.invalidate();
+
+        //*************************************************************************************//
+
+        BarChart multipleBarChart = findViewById(R.id.stacked_bar_chart);
+
+        // Y ekseninde gözükecek değerler
+        float[] karlar = {424.25f, 427.45f, 340.15f, 614.95f, 553.05f, 827.85f, 871.81f,
+                324.25f, 527.45f, 540.15f, 314.95f, 653.05f, 854.85f, 771.81f};
+        float[] cirolar = {2014.25f, 1984.45f, 1641.15f, 3291.95f, 2523.05f, 3827.85f, 4171.81f,
+                1424.25f, 2027.45f, 2350.15f, 1214.95f, 3153.05f, 4554.85f, 3271.81f};
+
+        // X ekseninin indexleri
+        int[] indexlerMultipleBar = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14};
+
+        // X ekseninde gözükecek değerler
+        final String[] tarihlerMultipleBar = new String[]{"6 May", "7 May", "8 May", "9 May", "10 May", "11 May", "12 May",
+                "13 May", "14 May", "15 May", "16 May", "17 May", "18 May", "19 May"};
+
+        ValueFormatter formatterMultipleBar = new ValueFormatter() {
+            @Override
+            public String getAxisLabel(float value, AxisBase axis) {
+                if(tarihlerMultipleBar.length > (int) value)
+                    return tarihlerMultipleBar[(int) value];
+                else return "";
+            }
+        };
+
+        List<BarEntry> karlarMultipleBar = new ArrayList<>();
+        List<BarEntry> cirolarMultipleBar = new ArrayList<>();
+
+        for(int i = 0; i<tarihlerMultipleBar.length; i++){
+            karlarMultipleBar.add(new BarEntry(indexlerMultipleBar[i], karlar[i]));
+            cirolarMultipleBar.add(new BarEntry(indexlerMultipleBar[i], cirolar[i]));
+        }
+
+        BarDataSet karlarBarDataSet = new BarDataSet(karlarMultipleBar, "Günlük Kar (₺)");
+        // Bar rengi
+        karlarBarDataSet.setColor(getResources().getColor(R.color.karRenk));
+        BarDataSet cirolarBarDataSet = new BarDataSet(cirolarMultipleBar, "Günlük Ciro (₺)");
+        // Bar rengi
+        cirolarBarDataSet.setColor(getResources().getColor(R.color.ciroRenk));
+
+        List<IBarDataSet> dataSets = new ArrayList<>();
+        dataSets.add(cirolarBarDataSet);
+        dataSets.add(karlarBarDataSet);
+
+        BarData multipleBarData = new BarData(dataSets);
+        // Barların kalınlığını ayarlar
+        multipleBarData.setBarWidth(0.35f);
+        multipleBarChart.setData(multipleBarData);
+
+        XAxis xEkseniMultipleBar = multipleBarChart.getXAxis();
+        // X eksenindeki değerlerin aşağıda gözükmesini sağlar
+        xEkseniMultipleBar.setPosition(XAxis.XAxisPosition.BOTTOM);
+        // X ekseni için ızgara çizgilerini gizler
+        xEkseniMultipleBar.setDrawGridLines(false);
+        // Yakınlaştırılınca x ekseninde fazladan değer çıkmasını engeller
+        xEkseniMultipleBar.setGranularity(1f);
+        // X ekseninin başlangıcında boşluk bırakır
+        xEkseniMultipleBar.setAxisMinimum(multipleBarData.getXMin() - 0.5f);
+        // X ekseninin sonunda boşluk bırakır
+        xEkseniMultipleBar.setAxisMaximum(multipleBarData.getXMax() + 0.5f);
+        // Değer formatlayıcıyı ayarlar
+        xEkseniMultipleBar.setValueFormatter(formatterMultipleBar);
+
+
+        YAxis yEkseniSolMultipleBar = multipleBarChart.getAxisLeft();
+        // sol Y ekseninde gözükecek değer sayısını ayarlar
+        yEkseniSolMultipleBar.setLabelCount(5, false);
+        // sol Y ekseninin göstereceği minimum değeri ayarlar
+        yEkseniSolMultipleBar.setAxisMinimum(0f);
+
+        YAxis yEkseniSagMultipleBar = multipleBarChart.getAxisRight();
+        // sağ Y ekseninde gözükecek değer sayısını ayarlar
+        yEkseniSagMultipleBar.setLabelCount(5, false);
+        // sağ Y ekseninin göstereceği minimum değeri ayarlar
+        yEkseniSagMultipleBar.setAxisMinimum(0f);
+        // sağ Y ekseni için ızgara çizgilerini gizler çünkü sol Y ekseni zaten gösteriyor
+        yEkseniSagMultipleBar.setDrawGridLines(false);
+        // sağ Y ekseninin çizgisini gizler
+        yEkseniSagMultipleBar.setDrawAxisLine(false);
+
+        // X eksenindeki sadece 7 değerin gözükmesini sağlar
+        multipleBarChart.setVisibleXRangeMaximum(7);
+        // Tablonun en sondaki değerlerin gözükmesini sağlar
+        multipleBarChart.moveViewToX(indexlerMultipleBar.length*1f);
+        // Grafiğe çift tıkla yakınlaştırmayı kapatır
+        multipleBarChart.setDoubleTapToZoomEnabled(false);
+        // X eksenine animasyon uygulayarak grafiği 750 milisaniyede çizer
+        multipleBarChart.animateX(750);
+        // PinchZoom aktif edilir. false ayarlanırsa X ve Y ekseni için ayrı ayrı yakınlaştırılır
+        multipleBarChart.setPinchZoom(true);
+        // Grafiğin sağ altındaki açıklamayı siler
+        multipleBarChart.getDescription().setEnabled(false);
+        // Birden fazla bar varsa başlangıç noktasını, barlar arası uzaklığı ve bar grupları arası uzaklığı belirler
+        multipleBarChart.groupBars(-0.5f, 0.14f, 0.08f);
+        // Grafiği yeniler
+        multipleBarChart.invalidate();
+
     }
 }
